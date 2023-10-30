@@ -1,0 +1,17 @@
+body{
+    background-position: center;
+    background-size: cover;
+}
+a{
+    width: 400px;
+    background-color: aquamarine;
+    color: brown;
+    font-size: 25px;
+}
+
+#tv_obj{
+    margin: auto;
+    width: 1440px;
+    height: 50px;
+    font-size: 25px;
+}
