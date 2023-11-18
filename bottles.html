@@ -18,18 +18,18 @@
 <body background="backgruond.jpeg">
     <center>
         <h1 class="btn btn-primary" id="tv_obj">Object Detected</h1>
+        <a href="index.html" class="btn btn-success">Back</a>
         <br>
         <br>
         <br>
         <br>
-        <h1 class="btn btn-danger"></h1>
+        <h1 class="btn btn-danger" id="status"></h1>
         <br>
         <br>
         <h1 class="btn btn-success">There are 5 big objects in the image from which cocossd model has detected 3 objects.</h1>
         <br>
         <br>
         <br>
-        <img src="bottles.jpeg">
         </center>
 </body>
 
@@ -39,3 +39,54 @@
         border-radius: 20px;
     }
 </style>
+
+<script>
+    objects = [];
+    objectDetector = "";
+    
+    function setup(){
+    canvas = createCanvas(640, 420);
+    canvas.center();
+    objectDetector = ml5.objectDetector('cocossd', modelloaded);
+    document.getElementById("status").innerHTML = "Status : Detecting objects"; 
+}
+
+img = "";
+status = "";
+
+function modelloaded(){
+    console.log("modelloaded");
+    status = true;
+    objectDetector.detect(img, gotResult);
+    document.getElementById("status").innerHTML = "Status : Dtetcting Objects";
+}
+
+function gotResult(error, results){
+    if(error){
+        console.error(error);
+    }
+    else{
+        console.log(results);
+        objects = results;
+    }
+}
+
+function preload(){
+    img = loadImage("bottles.jpeg");
+}
+
+function draw(){
+    image(img, 0, 0, 640, 420);
+    if(status != ""){
+        for(i = 0; i<objects.length; i++){
+            document.getElementById("status").innerHTML = "Status : Object Detected";
+    fill("red");
+    percent = floor(objects[i].confidence * 100);
+    text(objects[i].label + " " + percent + "%", objects[i].x + 10, objects[i].y +10);
+    noFill();
+    stroke("black");
+    rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+}
+        }
+    }
+</script>
